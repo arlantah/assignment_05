@@ -1,7 +1,17 @@
-Write your reflection here.
+I learned how to check a table's grain before altering it.
+The payroll history was long, with one row per employee per week which leads to it being 
+hard to read. The summary has one row per employee, and the hours grid is wide, with one column per week.
+That helped see why cleaning and roster merges need to preserve lineage,
+while group by and pivot_table created new tables.
 
-See reflection.md for what makes a good reflection — be specific, use the
-terminology from this assignment (grain, long vs. wide, vectorized .str methods,
-coerce, NaT, pd.to_datetime format, .dt, concat, ignore_index, group by, named
-aggregation, reset_index, pivot_table, fill_value, melt, lineage), and make it
-actionable.
+I also got more comfortable using .str methods, coerce for the unreadable numbers, 
+and pd.to_datetime with formats for the two date styles. 
+NaT and .dt made more sense once I used them to handle and filter
+dates. concat with ignore_index=True, named aggregation with
+reset_index(), and pivot_table with fill_value=0 followed by melt each
+solved a different shape problem in the pipeline.
+
+I want to practice predicting a DataFrame's columns and grain after each
+operation. I will use small examples to test aggregation and
+pivot_table, especially cases with missing departments, dates, or weeks, so
+I can tell where a zero, NaN, or NaT is appropriate.
