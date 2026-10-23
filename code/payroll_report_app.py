@@ -27,7 +27,10 @@ from payroll import (
 )
 
 st.title("Salt City Coffee — Quarterly Payroll Report")
-st.write("Upload weekly payroll exports to review the quarter by employee and department.")
+st.write(
+    "Upload weekly payroll exports to review the quarter "
+    "by employee and department."
+)
 
 roster = load_employees()
 uploads = st.file_uploader(
@@ -39,10 +42,13 @@ uploads = st.file_uploader(
 
 if uploads:
     history = build_history([load_export(upload) for upload in uploads], roster)
-    unmatched = history.loc[history["department"].isna(), "employeeid"].dropna().unique()
+    unmatched = (
+        history.loc[history["department"].isna(), "employeeid"].dropna().unique()
+    )
     if len(unmatched):
         st.warning(
-            "These employee IDs are not on the roster and are excluded from the reports: "
+            "These employee IDs are not on the roster and are "
+            "excluded from the reports: "
             + ", ".join(sorted(unmatched))
         )
 
@@ -72,8 +78,14 @@ if uploads:
         metric_columns = st.columns(4)
         metric_columns[0].metric("Weeks", selected["week_ending"].nunique())
         metric_columns[1].metric("Employees", selected["employee_id"].nunique())
-        metric_columns[2].metric("Total hours", f"{selected['hours_worked'].sum():,.2f}")
-        metric_columns[3].metric("Total gross pay", f"${selected['gross_pay'].sum():,.2f}")
+        metric_columns[2].metric(
+            "Total hours",
+            f"{selected['hours_worked'].sum():,.2f}",
+        )
+        metric_columns[3].metric(
+            "Total gross pay",
+            f"${selected['gross_pay'].sum():,.2f}",
+        )
 
         monthly_pay = pay_by_month(selected)
         st.bar_chart(monthly_pay, x="month")
